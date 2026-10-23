@@ -1,0 +1,13 @@
+---
+description: Escopo do administrativo-service
+alwaysApply: true
+---
+
+# Restrições do projeto (`administrativo-service`)
+
+- Escopo: **Cliente**, **Veículo** e **Serviço** (catálogo). Persistência **PostgreSQL**.
+- Endpoints públicos sob `/administrativo`. API interna em `/system/administrativo` com header `X-Service-Key`.
+- Não publica eventos.
+- Não é dono de ordem de serviço, estoque, orçamento nem emissão de JWT.
+- Não inventar features fora desse escopo.
+- README autocontido: sem referências a pastas fora do Git nem a numeração de documentos pessoais.
