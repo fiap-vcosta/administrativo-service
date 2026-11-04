@@ -1,0 +1,16 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    uses: fiap-vcosta/actions/.github/workflows/deploy.yml@main
+    with:
+      image_name: administrativo-service
+      deployment_name: administrativo-service
+      smoke_url: https://vcosta-fiap.online/administrativo/health

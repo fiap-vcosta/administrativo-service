@@ -204,7 +204,7 @@ public class ClienteControllerTests
     public async Task Update_ReturnsOk_WhenDocumentoIsNull()
     {
         // Arrange
-        var request = new UpdateClienteRequest { Nome = "Updated" };
+        var request = new UpdateClienteRequest { Nome = "Updated", TipoDocumento = TipoDocumento.Cpf };
         var savedResponse = new ClienteResponse { Id = 1, Nome = "Cliente Test", TipoDocumento = 0, Documento = "11144477735" };
         var updateResponse = new ClienteResponse { Id = 1, Nome = "Updated", TipoDocumento = 0, Documento = "11144477735" };
 

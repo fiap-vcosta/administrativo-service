@@ -17,7 +17,7 @@
         }
       },
       "rank": "a0",
-      "description": "Sem seed no banco: crie cliente/veículo/serviço antes de consultar. JWT staff: ./scripts/setup-local-jwt.sh && ./scripts/mint-staff-jwt.sh → variável token. Environment Docker: http://localhost:8080."
+      "description": "Sem seed no banco: crie cliente/veículo/serviço antes de consultar. JWT staff local: ./scripts/setup-local-jwt.sh && ./scripts/mint-staff-jwt.sh → variável token. Environments: Docker/Local (localhost:8080) e GCP (https://vcosta-fiap.online). Smoke GCP até o autenticacao-service: só 01-health."
     },
     {
       "id": "a1000001-0000-4000-8000-000000000010",
@@ -380,6 +380,36 @@
         "serviceAuthKey": {
           "type": "secret",
           "syncValue": "local-service-auth-key-change-me"
+        },
+        "clienteId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "veiculoId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "servicoId": {
+          "type": "string",
+          "syncValue": "1"
+        }
+      }
+    },
+    {
+      "id": "a1000001-0000-4000-8000-0000000000e3",
+      "name": "GCP",
+      "variables": {
+        "baseUrl": {
+          "type": "string",
+          "syncValue": "https://vcosta-fiap.online"
+        },
+        "token": {
+          "type": "secret",
+          "syncValue": ""
+        },
+        "serviceAuthKey": {
+          "type": "secret",
+          "syncValue": ""
         },
         "clienteId": {
           "type": "string",

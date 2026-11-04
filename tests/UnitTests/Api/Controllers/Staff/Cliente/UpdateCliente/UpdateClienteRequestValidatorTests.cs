@@ -70,7 +70,8 @@ public class UpdateClienteRequestValidatorTests
         // Arrange
         var request = new UpdateClienteRequest
         {
-            Nome = "Cliente Teste Atualizado"
+            Nome = "Cliente Teste Atualizado",
+            TipoDocumento = TipoDocumento.Cpf
         };
 
         // Act

@@ -23,6 +23,7 @@ PY
 env_file="$root/.env"
 if [[ ! -f "$env_file" ]]; then
   cat >"$env_file" <<EOF
+ConnectionStrings__DefaultConnection=Host=localhost;Database=administrativo;Username=postgres;Password=postgres;Maximum Pool Size=15
 POSTGRES_DB=administrativo
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
@@ -32,6 +33,8 @@ JWT_ISSUER=administrativo-local
 JWT_AUDIENCE=administrativo-local
 JWT_PUBLIC_KEY_PEM=${pub_escaped}
 NUGET_AUTH_TOKEN=
+DD_API_KEY=
+DD_SITE=datadoghq.com
 EOF
   echo "Criado $env_file — preencha NUGET_AUTH_TOKEN (PAT read:packages) para docker build."
 else
