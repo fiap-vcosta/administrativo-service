@@ -1,4 +1,4 @@
-namespace Api.Controllers.Veiculo.CreateVeiculo;
+namespace Api.Controllers.Staff.Veiculo.CreateVeiculo;
 
 public class CreateVeiculoRequest
 {

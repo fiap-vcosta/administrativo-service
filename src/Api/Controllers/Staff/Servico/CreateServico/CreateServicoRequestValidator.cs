@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Api.Contracts.Validation;
 
-namespace Api.Controllers.Servico.CreateServico;
+namespace Api.Controllers.Staff.Servico.CreateServico;
 
 public partial class CreateServicoRequestValidator : IValidator<CreateServicoRequest>
 {

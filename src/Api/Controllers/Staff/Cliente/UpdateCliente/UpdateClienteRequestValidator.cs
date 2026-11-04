@@ -3,11 +3,11 @@ using CpfCnpjLibrary;
 using Domain.Entities;
 using Domain.ValueObjects;
 
-namespace Api.Controllers.Cliente.CreateCliente;
+namespace Api.Controllers.Staff.Cliente.UpdateCliente;
 
-public class CreateClienteRequestValidator : IValidator<CreateClienteRequest>
+public class UpdateClienteRequestValidator : IValidator<UpdateClienteRequest>
 {
-    public ValidationResult Validate(CreateClienteRequest request)
+    public ValidationResult Validate(UpdateClienteRequest request)
     {
         var result = new ValidationResult();
 
@@ -25,6 +25,7 @@ public class CreateClienteRequestValidator : IValidator<CreateClienteRequest>
         {
             result.Errors.Add("TipoDocumento é inválido.");
         }
+
 
         if (string.IsNullOrWhiteSpace(request.Documento))
         {

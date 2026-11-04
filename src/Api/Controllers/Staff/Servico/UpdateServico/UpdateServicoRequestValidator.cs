@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Api.Contracts.Validation;
 
-namespace Api.Controllers.Servico.UpdateServico;
+namespace Api.Controllers.Staff.Servico.UpdateServico;
 
 public partial class UpdateServicoRequestValidator : IValidator<UpdateServicoRequest>
 {

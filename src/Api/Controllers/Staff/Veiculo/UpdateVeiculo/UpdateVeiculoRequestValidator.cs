@@ -1,13 +1,13 @@
 using System.Text.RegularExpressions;
 using Api.Contracts.Validation;
 
-namespace Api.Controllers.Veiculo.CreateVeiculo;
+namespace Api.Controllers.Staff.Veiculo.UpdateVeiculo;
 
-public partial class CreateVeiculoRequestValidator : IValidator<CreateVeiculoRequest>
+public partial class UpdateVeiculoRequestValidator : IValidator<UpdateVeiculoRequest>
 {
     private static readonly Regex PlacaRegex = MyRegex();
 
-    public ValidationResult Validate(CreateVeiculoRequest request)
+    public ValidationResult Validate(UpdateVeiculoRequest request)
     {
         var result = new ValidationResult();
 

@@ -1,8 +1,8 @@
 using Domain.Entities;
 
-namespace Api.Controllers.Cliente.UpdateCliente;
+namespace Api.Controllers.Staff.Cliente.CreateCliente;
 
-public class UpdateClienteRequest
+public class CreateClienteRequest
 {
     public string Nome { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;

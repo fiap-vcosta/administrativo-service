@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers.Cliente.SystemApi;
+namespace Api.Controllers.SystemApi.Cliente;
 
 [ApiController]
 [AllowAnonymous]

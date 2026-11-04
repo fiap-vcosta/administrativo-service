@@ -1,6 +1,6 @@
 using Api.Contracts.Validation;
-using Api.Controllers.Servico.CreateServico;
-using Api.Controllers.Servico.UpdateServico;
+using Api.Controllers.Staff.Servico.CreateServico;
+using Api.Controllers.Staff.Servico.UpdateServico;
 using Api.Presenters.Servico;
 using Application.UseCases.Servico.Commands.CreateServico;
 using Application.UseCases.Servico.Commands.DeleteServico;
@@ -12,7 +12,7 @@ using BuildingBlocks.Http.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers.Servico;
+namespace Api.Controllers.Staff.Servico;
 
 [ApiController]
 [Route("administrativo/servicos")]

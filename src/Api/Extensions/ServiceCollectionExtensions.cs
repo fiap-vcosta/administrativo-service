@@ -1,11 +1,11 @@
 using System.Text.Json.Serialization;
 using Api.Contracts.Validation;
-using Api.Controllers.Cliente.CreateCliente;
-using Api.Controllers.Cliente.UpdateCliente;
-using Api.Controllers.Servico.CreateServico;
-using Api.Controllers.Servico.UpdateServico;
-using Api.Controllers.Veiculo.CreateVeiculo;
-using Api.Controllers.Veiculo.UpdateVeiculo;
+using Api.Controllers.Staff.Cliente.CreateCliente;
+using Api.Controllers.Staff.Cliente.UpdateCliente;
+using Api.Controllers.Staff.Servico.CreateServico;
+using Api.Controllers.Staff.Servico.UpdateServico;
+using Api.Controllers.Staff.Veiculo.CreateVeiculo;
+using Api.Controllers.Staff.Veiculo.UpdateVeiculo;
 using Api.Presenters.Cliente;
 using Api.Presenters.Servico;
 using Api.Presenters.Veiculo;

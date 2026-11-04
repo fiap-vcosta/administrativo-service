@@ -1,6 +1,6 @@
-namespace Api.Controllers.Servico.UpdateServico;
+namespace Api.Controllers.Staff.Servico.CreateServico;
 
-public class UpdateServicoRequest
+public class CreateServicoRequest
 {
     public string Codigo { get; init; } = string.Empty;
     public string Nome { get; init; } = string.Empty;

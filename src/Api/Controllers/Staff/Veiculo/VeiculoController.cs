@@ -1,6 +1,6 @@
 using Api.Contracts.Validation;
-using Api.Controllers.Veiculo.CreateVeiculo;
-using Api.Controllers.Veiculo.UpdateVeiculo;
+using Api.Controllers.Staff.Veiculo.CreateVeiculo;
+using Api.Controllers.Staff.Veiculo.UpdateVeiculo;
 using Api.Presenters.Veiculo;
 using Application.UseCases.Veiculo.Commands.CreateVeiculo;
 using Application.UseCases.Veiculo.Commands.DeleteVeiculo;
@@ -12,7 +12,7 @@ using BuildingBlocks.Http.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers.Veiculo;
+namespace Api.Controllers.Staff.Veiculo;
 
 [ApiController]
 [Route("administrativo/veiculos")]

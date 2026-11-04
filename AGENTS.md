@@ -15,7 +15,7 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 | `src/Domain` | Entities + VO `Documento` |
 | `src/Application` | UseCases MediatR + gateways |
 | `src/Infrastructure` | EF Core, `AddInfrastructure`, migration sem seed |
-| `src/Api` | Controllers `/administrativo` + `/system/administrativo`, health, Swagger |
+| `src/Api` | Controllers por audiência (`Staff/` + `SystemApi/`), health, Swagger |
 | `nuget.config` | `building-blocks` → GitHub Packages |
 
 Dependências apontam para dentro. Sem comentários narrativos em C#. Sem seed EF.

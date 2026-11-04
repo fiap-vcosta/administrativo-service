@@ -1,6 +1,6 @@
 using Api.Contracts.Validation;
-using Api.Controllers.Cliente.CreateCliente;
-using Api.Controllers.Cliente.UpdateCliente;
+using Api.Controllers.Staff.Cliente.CreateCliente;
+using Api.Controllers.Staff.Cliente.UpdateCliente;
 using Api.Presenters.Cliente;
 using Api.Presenters.Veiculo;
 using Application.UseCases.Cliente.Commands.CreateCliente;
@@ -14,7 +14,7 @@ using BuildingBlocks.Http.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers.Cliente;
+namespace Api.Controllers.Staff.Cliente;
 
 [ApiController]
 [Route("administrativo/clientes")]

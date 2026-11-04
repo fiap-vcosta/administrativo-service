@@ -8,10 +8,22 @@ alwaysApply: true
 - `src/Domain` — entidades e regras, sem ORM, HTTP ou host
 - `src/Application` — casos de uso; fala com o exterior só por ports
 - `src/Infrastructure` — persistência e integrações; implementa ports
-- `src/Api` — HTTP na borda (quando existir)
+- `src/Api` — HTTP na borda
 - `tests/` espelhando `src/`
 - `k8s/`, `terraform/`, `Dockerfile`, `docker-compose.yml` (quando existirem)
 
 Dependências da Clean Architecture apontam para dentro: Api → Application → Domain; Infrastructure implementa ports.
+
+## Controllers por audiência (P19)
+
+`src/Api/Controllers/` agrupa **primeiro por audiência**, depois por agregado:
+
+| Pasta | Audiência | Path |
+|-------|-----------|------|
+| `Staff/` | JWT funcionário | `/administrativo/…` |
+| `SystemApi/` | `X-Service-Key` | `/system/administrativo/…` |
+| `Business/` | JWT cliente / ator de negócio | só se o serviço tiver |
+
+Namespace da pasta de sistema: **`SystemApi`** (não `System` — conflito com o BCL). Neste serviço não há `Business/`.
 
 Sem comentários narrativos em C#. Sem seed EF (`HasData`); dados via Requestly/e2e.

@@ -13,7 +13,7 @@ Requisitos: [docs/01_requisitos.md](docs/01_requisitos.md).
 | `src/Domain` | Cliente, Veículo, Serviço + VO `Documento` |
 | `src/Application` | Use cases MediatR + gateways |
 | `src/Infrastructure` | EF Core (PostgreSQL), migration **sem seed** |
-| `src/Api` | `/administrativo/…` (JWT staff) + `/system/administrativo/…` (`X-Service-Key`) |
+| `src/Api` | Controllers `Staff/` + `SystemApi/` (`/administrativo/…` e `/system/administrativo/…`) |
 
 ## Dados de demo
 

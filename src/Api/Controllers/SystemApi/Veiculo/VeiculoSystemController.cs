@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers.Veiculo.SystemApi;
+namespace Api.Controllers.SystemApi.Veiculo;
 
 [ApiController]
 [AllowAnonymous]

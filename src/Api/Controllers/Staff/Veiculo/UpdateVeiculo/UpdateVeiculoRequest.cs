@@ -1,4 +1,4 @@
-namespace Api.Controllers.Veiculo.UpdateVeiculo;
+namespace Api.Controllers.Staff.Veiculo.UpdateVeiculo;
 
 public class UpdateVeiculoRequest
 {
