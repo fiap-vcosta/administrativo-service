@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.ValueObjects;
 using Infrastructure.Database;
 using Infrastructure.Database.Gateways;
 using Microsoft.EntityFrameworkCore;

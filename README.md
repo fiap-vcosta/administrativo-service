@@ -14,6 +14,8 @@ Requisitos: [docs/01_requisitos.md](docs/01_requisitos.md).
 | `src/Application` | Use cases MediatR + gateways |
 | `src/Infrastructure` | EF Core (PostgreSQL), migration **sem seed** |
 | `src/Api` | Controllers `Staff/` + `SystemApi/` (`/administrativo/…` e `/system/administrativo/…`) |
+| `terraform/` | Root module GCP do serviço (database/usuário/secret na próxima entrega) |
+| `.github/workflows/ci.yml` | Caller `ci-dotnet` (Packages + Sonar) e `ci-terraform` (`fmt`/`validate`) |
 
 ## Dados de demo
 
@@ -65,6 +67,15 @@ dotnet test tests/UnitTests/UnitTests.csproj -c Release \
 # Integração precisa de Docker (Testcontainers Postgres)
 dotnet test tests/IntegrationTests/IntegrationTests.csproj -c Release
 ```
+
+## CI
+
+Caller dos reusables em [`fiap-vcosta/actions`](https://github.com/fiap-vcosta/actions):
+
+- **dotnet** — InspectCode, unit (gate 80%), integração, SonarCloud (`fiap-vcosta_administrativo-service`); restore do `building-blocks` via GitHub Packages (`packages: read`)
+- **terraform** — `fmt` / `validate` (plan OIDC fica para quando o module e o backend existirem)
+
+Secret necessário no repo: `SONAR_TOKEN`.
 
 ## Build
 

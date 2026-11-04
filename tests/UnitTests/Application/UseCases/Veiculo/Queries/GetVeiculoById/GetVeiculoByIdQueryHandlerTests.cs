@@ -1,6 +1,5 @@
 using Application.UseCases.Veiculo.Queries.GetVeiculoById;
 using Domain.Entities;
-using Domain.ValueObjects;
 using Application.Abstractions.Gateways;
 using Moq;
 

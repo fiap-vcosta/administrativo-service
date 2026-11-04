@@ -11,6 +11,10 @@ trim_trailing_whitespace = true
 # Underscores in identifiers: intentional for Given_When_Then test names.
 dotnet_diagnostic.CA1707.severity = none
 
+# API ViewModels: getters exist for JSON serialization (Presenter → HTTP).
+[src/Api/ViewModels/**.cs]
+resharper_unused_auto_property_accessor_global_highlighting = none
+
 # Domain entities: private setters exist for EF Core materialization.
 [src/Domain/**/Entities/**.cs]
 resharper_unused_auto_property_accessor_local_highlighting = none

@@ -1,7 +1,6 @@
 using Application.UseCases.Veiculo.Commands.DeleteVeiculo;
 using Domain.Exceptions;
 using Domain.Entities;
-using Domain.ValueObjects;
 using Application.Abstractions.Gateways;
 using Moq;
 
