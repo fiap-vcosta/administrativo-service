@@ -11,8 +11,8 @@ COPY ["src/Domain/Domain.csproj", "src/Domain/"]
 RUN --mount=type=secret,id=nuget_token \
     dotnet nuget update source github \
       --username github \
-      --password-stdin \
-      --store-password-in-clear-text < /run/secrets/nuget_token \
+      --password "$(cat /run/secrets/nuget_token)" \
+      --store-password-in-clear-text \
  && dotnet restore "src/Api/Api.csproj"
 
 COPY . .
