@@ -49,6 +49,8 @@ dotnet run --project src/Api/Api.csproj
 # Health:  http://localhost:8080/administrativo/health
 ```
 
+A app sempre lê `ConnectionStrings__DefaultConnection` (local, Compose `api` e Secret no GKE). `POSTGRES_*` existe só para o container Postgres no Compose.
+
 Compose (app + Postgres):
 
 ```bash
