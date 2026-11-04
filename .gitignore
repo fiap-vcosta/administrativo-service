@@ -29,6 +29,9 @@ Migrations/*.Designer.cs
 docker-compose.override.yml
 .env
 
+# Local JWT test keys (scripts/setup-local-jwt.sh)
+.local/
+
 # IDEs
 .idea/
 *.sln.DotSettings.user

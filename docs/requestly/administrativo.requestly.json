@@ -1,0 +1,400 @@
+{
+  "meta": {
+    "version": "1.1.0",
+    "exportedAt": "2026-11-04T00:00:00.000Z",
+    "exportedUsing": "Requestly API Client"
+  },
+  "records": [
+    {
+      "id": "a1000001-0000-4000-8000-000000000001",
+      "name": "administrativo-service",
+      "type": "collection",
+      "parentId": null,
+      "deleted": false,
+      "data": {
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a0",
+      "description": "Sem seed no banco: crie cliente/veículo/serviço antes de consultar. JWT staff: ./scripts/setup-local-jwt.sh && ./scripts/mint-staff-jwt.sh → variável token. Environment Docker: http://localhost:8080."
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000010",
+      "name": "01-health",
+      "type": "collection",
+      "parentId": "a1000001-0000-4000-8000-000000000001",
+      "deleted": false,
+      "data": {
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a0",
+      "description": "Health check (sem auth)."
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000011",
+      "name": "health",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000010",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/administrativo/health",
+          "method": "GET",
+          "headers": [],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "none"
+          },
+          "contentType": "none"
+        },
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a0"
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000020",
+      "name": "02-crud",
+      "type": "collection",
+      "parentId": "a1000001-0000-4000-8000-000000000001",
+      "deleted": false,
+      "data": {
+        "auth": {
+          "type": "bearer_token",
+          "token": "{{token}}"
+        }
+      },
+      "rank": "a1",
+      "description": "JWT staff (FuncionarioJwt). Cole o token emitido por scripts/mint-staff-jwt.sh na variável token do environment."
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000021",
+      "name": "POST cliente",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000020",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/administrativo/clientes",
+          "method": "POST",
+          "headers": [
+            {
+              "id": 1,
+              "key": "Content-Type",
+              "value": "application/json",
+              "isEnabled": true,
+              "description": ""
+            }
+          ],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "raw",
+            "raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"tipoDocumento\": \"Cpf\",\n  \"documento\": \"86421537090\"\n}",
+            "rawContentType": "application/json"
+          },
+          "contentType": "raw"
+        },
+        "auth": {
+          "type": "inherit"
+        },
+        "scripts": {
+          "postResponse": "var j = rq.response.json(); if (j && j.id) { rq.environment.set(\"clienteId\", j.id); }"
+        }
+      },
+      "rank": "a0"
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000022",
+      "name": "POST veiculo",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000020",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/administrativo/veiculos",
+          "method": "POST",
+          "headers": [
+            {
+              "id": 1,
+              "key": "Content-Type",
+              "value": "application/json",
+              "isEnabled": true,
+              "description": ""
+            }
+          ],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "raw",
+            "raw": "{\n  \"placa\": \"ABC1D23\",\n  \"idCliente\": {{clienteId}},\n  \"modelo\": \"Onix\",\n  \"marca\": \"Chevrolet\"\n}",
+            "rawContentType": "application/json"
+          },
+          "contentType": "raw"
+        },
+        "auth": {
+          "type": "inherit"
+        },
+        "scripts": {
+          "postResponse": "var j = rq.response.json(); if (j && j.id) { rq.environment.set(\"veiculoId\", j.id); }"
+        }
+      },
+      "rank": "a1"
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000023",
+      "name": "POST servico",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000020",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/administrativo/servicos",
+          "method": "POST",
+          "headers": [
+            {
+              "id": 1,
+              "key": "Content-Type",
+              "value": "application/json",
+              "isEnabled": true,
+              "description": ""
+            }
+          ],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "raw",
+            "raw": "{\n  \"codigo\": \"MTR-001\",\n  \"nome\": \"Troca de óleo\",\n  \"precoPadrao\": 120.0,\n  \"ativo\": true\n}",
+            "rawContentType": "application/json"
+          },
+          "contentType": "raw"
+        },
+        "auth": {
+          "type": "inherit"
+        },
+        "scripts": {
+          "postResponse": "var j = rq.response.json(); if (j && j.id) { rq.environment.set(\"servicoId\", j.id); }"
+        }
+      },
+      "rank": "a2"
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000030",
+      "name": "03-system",
+      "type": "collection",
+      "parentId": "a1000001-0000-4000-8000-000000000001",
+      "deleted": false,
+      "data": {
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a2",
+      "description": "Rotas /system com X-Service-Key (só rede local/cluster)."
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000031",
+      "name": "GET cliente por documento",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/system/administrativo/clientes/por-documento/86421537090",
+          "method": "GET",
+          "headers": [
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
+          ],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "none"
+          },
+          "contentType": "none"
+        },
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a0"
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000032",
+      "name": "GET cliente por id",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/system/administrativo/clientes/{{clienteId}}",
+          "method": "GET",
+          "headers": [
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
+          ],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "none"
+          },
+          "contentType": "none"
+        },
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a1"
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000033",
+      "name": "GET veiculo por id",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/system/administrativo/veiculos/{{veiculoId}}",
+          "method": "GET",
+          "headers": [
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
+          ],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "none"
+          },
+          "contentType": "none"
+        },
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a2"
+    },
+    {
+      "id": "a1000001-0000-4000-8000-000000000034",
+      "name": "GET servico por id",
+      "type": "api",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
+      "deleted": false,
+      "data": {
+        "type": "http",
+        "request": {
+          "url": "{{baseUrl}}/system/administrativo/servicos/{{servicoId}}",
+          "method": "GET",
+          "headers": [
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
+          ],
+          "queryParams": [],
+          "pathVariables": [],
+          "body": {
+            "contentType": "none"
+          },
+          "contentType": "none"
+        },
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a3"
+    }
+  ],
+  "environments": [
+    {
+      "id": "a1000001-0000-4000-8000-0000000000e1",
+      "name": "Docker",
+      "variables": {
+        "baseUrl": {
+          "type": "string",
+          "syncValue": "http://localhost:8080"
+        },
+        "token": {
+          "type": "secret",
+          "syncValue": ""
+        },
+        "serviceAuthKey": {
+          "type": "secret",
+          "syncValue": "local-service-auth-key-change-me"
+        },
+        "clienteId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "veiculoId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "servicoId": {
+          "type": "string",
+          "syncValue": "1"
+        }
+      }
+    },
+    {
+      "id": "a1000001-0000-4000-8000-0000000000e2",
+      "name": "Local",
+      "variables": {
+        "baseUrl": {
+          "type": "string",
+          "syncValue": "http://localhost:8080"
+        },
+        "token": {
+          "type": "secret",
+          "syncValue": ""
+        },
+        "serviceAuthKey": {
+          "type": "secret",
+          "syncValue": "local-service-auth-key-change-me"
+        },
+        "clienteId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "veiculoId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "servicoId": {
+          "type": "string",
+          "syncValue": "1"
+        }
+      }
+    }
+  ],
+  "packages": []
+}
