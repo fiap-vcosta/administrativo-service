@@ -19,7 +19,10 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 | `tests/UnitTests` | Unitários (gate Coverlet 80% line/branch por assembly) |
 | `tests/IntegrationTests` | HTTP + Testcontainers Postgres |
 | `terraform/` | Root module GCP (casca; recursos na entrega de TF) |
+| `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
 | `.github/workflows/ci.yml` | Callers `ci-dotnet` + `ci-terraform` |
+| `.github/workflows/build-push.yml` | Merge `main` → Artifact Registry |
+| `.github/workflows/deploy.yml` | Manual → manifests + smoke `/administrativo/health` |
 | `nuget.config` | `building-blocks` → GitHub Packages |
 
 Dependências apontam para dentro. Sem comentários narrativos em C#. Sem seed EF.

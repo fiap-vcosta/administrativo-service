@@ -15,7 +15,10 @@ Requisitos: [docs/01_requisitos.md](docs/01_requisitos.md).
 | `src/Infrastructure` | EF Core (PostgreSQL), migration **sem seed** |
 | `src/Api` | Controllers `Staff/` + `SystemApi/` (`/administrativo/…` e `/system/administrativo/…`) |
 | `terraform/` | Root module GCP do serviço (database/usuário/secret na próxima entrega) |
+| `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
 | `.github/workflows/ci.yml` | Caller `ci-dotnet` (Packages + Sonar) e `ci-terraform` (`fmt`/`validate`) |
+| `.github/workflows/build-push.yml` | Merge em `main` → imagem no Artifact Registry |
+| `.github/workflows/deploy.yml` | Manual → apply `k8s/` + rollout + smoke health |
 
 ## Dados de demo
 
@@ -76,6 +79,23 @@ Caller dos reusables em [`fiap-vcosta/actions`](https://github.com/fiap-vcosta/a
 - **terraform** — `fmt` / `validate` (plan OIDC fica para quando o module e o backend existirem)
 
 Secret necessário no repo: `SONAR_TOKEN`.
+
+## CD (GCP)
+
+| Workflow | Gatilho | Papel |
+|----------|---------|--------|
+| `build-push` | push em `main` | Imagem `administrativo-service` no Artifact Registry (BuildKit + `packages: read` para o `building-blocks`) |
+| `deploy` | `workflow_dispatch` | Aplica `k8s/` (exceto secrets), rollout e smoke em `https://vcosta-fiap.online/administrativo/health` |
+
+Pré-requisitos do `deploy` (fora deste PR):
+
+1. Cluster + Gateway do [`infra-k8s`](https://github.com/fiap-vcosta/infra-k8s) no ar
+2. Database/usuário/secret do serviço (entrega Terraform deste repo) e Secret Kubernetes `administrativo-service` com pelo menos `ConnectionStrings__DefaultConnection`, `ServiceAuth__Key` e `DD_API_KEY`
+3. Imagem já publicada pelo `build-push`
+
+O `HTTPRoute` expõe só o prefixo público `/administrativo`. Rotas `/system/administrativo/…` ficam no cluster. JWT staff/cliente no ConfigMap aponta para o JWKS do `autenticacao-service` (iss/aud: `autenticacao-service` / `funcionario`|`cliente`) — o smoke atual é só health.
+
+Requestly: environment **GCP** em [`docs/requestly/`](docs/requestly/) (`baseUrl` = `https://vcosta-fiap.online`).
 
 ## Build
 
