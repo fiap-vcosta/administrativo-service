@@ -1,9 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Npgsql;
 
 namespace Infrastructure.Database;
 
+[ExcludeFromCodeCoverage]
 public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
@@ -11,20 +12,8 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
         var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
         if (string.IsNullOrWhiteSpace(connectionString))
         {
-            var builder = new NpgsqlConnectionStringBuilder
-            {
-                Host = "localhost",
-                Database = Environment.GetEnvironmentVariable("POSTGRES_DB") ?? "administrativo",
-                Username = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? "postgres",
-                MaxPoolSize = 15
-            };
-            var pwd = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
-            if (!string.IsNullOrEmpty(pwd))
-            {
-                builder.Password = pwd;
-            }
-
-            connectionString = builder.ConnectionString;
+            throw new InvalidOperationException(
+                "Set ConnectionStrings__DefaultConnection for EF design-time (see .env.example).");
         }
 
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();

@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <ExcludeByFile>**/Program.cs,**/ServiceCollectionExtensions.cs,**/WebApplicationExtensions.cs,**/RegexGenerator.g.cs</ExcludeByFile>
+    <ExcludeByFile>**/Program.cs,**/ServiceCollectionExtensions.cs,**/WebApplicationExtensions.cs,**/AppDbContextFactory.cs,**/RegexGenerator.g.cs</ExcludeByFile>
     <Exclude>[*]*.Migrations.*</Exclude>
   </PropertyGroup>
 
