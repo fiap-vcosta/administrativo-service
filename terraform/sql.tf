@@ -69,3 +69,27 @@ resource "google_sql_user" "app" {
 
   depends_on = [google_sql_provision_script.harden]
 }
+
+resource "terraform_data" "drop_database_before_app_user" {
+  input = {
+    project  = var.project_id
+    instance = local.db_instance_name
+    database = local.db_name
+  }
+
+  depends_on = [
+    google_sql_database.service,
+    google_sql_user.app,
+  ]
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<-EOT
+      set -euo pipefail
+      gcloud sql databases delete '${self.input.database}' \
+        --instance='${self.input.instance}' \
+        --project='${self.input.project}' \
+        --quiet
+    EOT
+  }
+}
