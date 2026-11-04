@@ -93,7 +93,7 @@ Pré-requisitos do `deploy` (fora deste PR):
 2. Database/usuário/secret do serviço (entrega Terraform deste repo) e Secret Kubernetes `administrativo-service` com pelo menos `ConnectionStrings__DefaultConnection`, `ServiceAuth__Key` e `DD_API_KEY`
 3. Imagem já publicada pelo `build-push`
 
-O `HTTPRoute` expõe só o prefixo público `/administrativo`. Rotas `/system/administrativo/…` ficam no cluster. JWT staff/cliente no ConfigMap aponta para o JWKS do `autenticacao-service` (iss/aud: `autenticacao-service` / `funcionario`|`cliente`) — o smoke atual é só health.
+O `HTTPRoute` expõe só o prefixo público `/administrativo`. Rotas `/system/administrativo/…` ficam no cluster. JWT staff/cliente no ConfigMap valida JWKS em `https://vcosta-fiap.online/autenticacao/.well-known/jwks.json` (iss/aud: `autenticacao-service` / `funcionario`|`cliente`) — o smoke atual é só health.
 
 Requestly: environment **GCP** em [`docs/requestly/`](docs/requestly/) (`baseUrl` = `https://vcosta-fiap.online`).
 

@@ -5,15 +5,16 @@ metadata:
   namespace: tech-challenge
 data:
   ASPNETCORE_ENVIRONMENT: "Production"
-  ASPNETCORE_URLS: "http://+:8080"
+  # TLS termina no Gateway; Kestrel escuta HTTP só dentro do cluster.
+  ASPNETCORE_URLS: "http://+:8080" # NOSONAR
   Jwt__Funcionario__Issuer: "autenticacao-service"
   Jwt__Funcionario__Audience: "funcionario"
-  Jwt__Funcionario__JwksUrl: "http://autenticacao-service.tech-challenge.svc.cluster.local/autenticacao/.well-known/jwks.json"
-  Jwt__Funcionario__RequireHttpsMetadata: "false"
+  Jwt__Funcionario__JwksUrl: "https://vcosta-fiap.online/autenticacao/.well-known/jwks.json"
+  Jwt__Funcionario__RequireHttpsMetadata: "true"
   Jwt__Cliente__Issuer: "autenticacao-service"
   Jwt__Cliente__Audience: "cliente"
-  Jwt__Cliente__JwksUrl: "http://autenticacao-service.tech-challenge.svc.cluster.local/autenticacao/.well-known/jwks.json"
-  Jwt__Cliente__RequireHttpsMetadata: "false"
+  Jwt__Cliente__JwksUrl: "https://vcosta-fiap.online/autenticacao/.well-known/jwks.json"
+  Jwt__Cliente__RequireHttpsMetadata: "true"
   CLOUD_SQL_CONNECTION_NAME: "vcosta-fiap-tech-challenge:us-central1:tech-challenge-pg"
   DD_SERVICE: "administrativo-service"
   DD_ENV: "prod"
