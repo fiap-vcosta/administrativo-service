@@ -1,19 +1,17 @@
 ---
-description: Layout alvo do serviço .NET quando o código chegar
+description: Layout do serviço .NET (Clean Architecture)
 alwaysApply: true
 ---
 
 # Layout (`administrativo-service`)
 
-Quando o código chegar, o alvo é:
-
 - `src/Domain` — entidades e regras, sem ORM, HTTP ou host
 - `src/Application` — casos de uso; fala com o exterior só por ports
 - `src/Infrastructure` — persistência e integrações; implementa ports
-- `src/Api` — HTTP na borda
+- `src/Api` — HTTP na borda (quando existir)
 - `tests/` espelhando `src/`
-- `k8s/`, `terraform/`, `Dockerfile`, `docker-compose.yml`
+- `k8s/`, `terraform/`, `Dockerfile`, `docker-compose.yml` (quando existirem)
 
 Dependências da Clean Architecture apontam para dentro: Api → Application → Domain; Infrastructure implementa ports.
 
-Sem comentários narrativos em C#.
+Sem comentários narrativos em C#. Sem seed EF (`HasData`); dados via Requestly/e2e.
