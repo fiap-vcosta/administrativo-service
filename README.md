@@ -16,7 +16,7 @@ Requisitos: [docs/01_requisitos.md](docs/01_requisitos.md).
 | `src/Api` | Controllers `Staff/` + `SystemApi/` (`/administrativo/…` e `/system/administrativo/…`) |
 | `terraform/` | Database `administrativo`, usuário com role `administrativo_app`, secrets SM |
 | `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
-| `.github/workflows/ci.yml` | Caller `ci-dotnet` (Packages + Sonar) e `ci-terraform` (`fmt`/`validate`/`plan`) |
+| `.github/workflows/ci.yml` | Caller `ci-dotnet` (Packages + Sonar) e `ci-terraform` (`fmt`/`validate`) |
 | `.github/workflows/build-push.yml` | Merge em `main` → imagem no Artifact Registry |
 | `.github/workflows/deploy.yml` | Manual → apply `k8s/` + rollout + smoke health |
 | `.github/workflows/tf-apply.yml` / `tf-destroy.yml` | Manual → database/usuário/secret |
@@ -79,7 +79,7 @@ dotnet test tests/IntegrationTests/IntegrationTests.csproj -c Release
 Caller dos reusables em [`fiap-vcosta/actions`](https://github.com/fiap-vcosta/actions):
 
 - **dotnet** — InspectCode, unit (gate 80%), integração, SonarCloud (`fiap-vcosta_administrativo-service`); restore do `building-blocks` via GitHub Packages (`packages: read`)
-- **terraform** — `fmt` / `validate` / `plan` (OIDC) no root `terraform/`
+- **terraform** — `fmt` / `validate` no root `terraform/` (plan fica para o `tf-apply`, com `infra-db` no ar)
 
 Secret necessário no repo: `SONAR_TOKEN`.
 

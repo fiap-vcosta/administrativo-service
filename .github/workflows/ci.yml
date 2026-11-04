@@ -20,6 +20,5 @@ jobs:
     uses: fiap-vcosta/actions/.github/workflows/ci-terraform.yml@main
     permissions:
       contents: read
-      id-token: write
     with:
-      run_plan: true
+      run_plan: false
