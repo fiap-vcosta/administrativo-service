@@ -16,6 +16,8 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 | `src/Application` | UseCases MediatR + gateways |
 | `src/Infrastructure` | EF Core, `AddInfrastructure`, migration sem seed |
 | `src/Api` | Controllers por audiência (`Staff/` + `SystemApi/`), health, Swagger |
+| `tests/UnitTests` | Unitários (gate Coverlet 80% line/branch por assembly) |
+| `tests/IntegrationTests` | HTTP + Testcontainers Postgres |
 | `nuget.config` | `building-blocks` → GitHub Packages |
 
 Dependências apontam para dentro. Sem comentários narrativos em C#. Sem seed EF.
@@ -25,6 +27,14 @@ Dependências apontam para dentro. Sem comentários narrativos em C#. Sem seed E
 ```bash
 dotnet restore TechChallenge.sln
 dotnet build TechChallenge.sln -c Release
+dotnet test tests/UnitTests/UnitTests.csproj -c Release \
+  "/p:CollectCoverage=true" \
+  "/p:CoverletOutputFormat=cobertura" \
+  "/p:Include=[Domain]*%2c[Application]*%2c[Infrastructure]*%2c[Api]*" \
+  "/p:Threshold=80" \
+  "/p:ThresholdType=line%2Cbranch" \
+  "/p:ThresholdStat=minimum"
+dotnet test tests/IntegrationTests/IntegrationTests.csproj -c Release
 ./scripts/setup-local-jwt.sh
 dotnet run --project src/Api/Api.csproj
 docker compose --profile app up --build
