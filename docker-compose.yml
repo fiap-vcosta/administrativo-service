@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:?POSTGRES_USER is required}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    profiles:
+      - app
+    build:
+      context: .
+      secrets:
+        - nuget_token
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:?ASPNETCORE_ENVIRONMENT is required}
+      ConnectionStrings__DefaultConnection: Host=db;Database=${POSTGRES_DB:?POSTGRES_DB is required};Username=${POSTGRES_USER:?POSTGRES_USER is required};Password=${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required};Maximum Pool Size=15
+      Jwt__Funcionario__Issuer: ${JWT_ISSUER:?JWT_ISSUER is required}
+      Jwt__Funcionario__Audience: ${JWT_AUDIENCE:?JWT_AUDIENCE is required}
+      Jwt__Funcionario__PublicKeyPem: ${JWT_PUBLIC_KEY_PEM:?JWT_PUBLIC_KEY_PEM is required}
+      Jwt__Funcionario__RequireHttpsMetadata: "false"
+      Jwt__Cliente__Issuer: ${JWT_ISSUER:?JWT_ISSUER is required}
+      Jwt__Cliente__Audience: ${JWT_AUDIENCE:?JWT_AUDIENCE is required}
+      Jwt__Cliente__PublicKeyPem: ${JWT_PUBLIC_KEY_PEM:?JWT_PUBLIC_KEY_PEM is required}
+      Jwt__Cliente__RequireHttpsMetadata: "false"
+      ServiceAuth__Key: ${SERVICE_AUTH_KEY:?SERVICE_AUTH_KEY is required}
+      DD_SERVICE: administrativo-service
+      DD_ENV: local
+      DD_LOGS_INJECTION: "true"
+      DD_API_KEY: ${DD_API_KEY:-}
+      DD_SITE: ${DD_SITE:-datadoghq.com}
+      DD_AGENT_HOST: ${DD_AGENT_HOST:-127.0.0.1}
+    depends_on:
+      db:
+        condition: service_healthy
+
+secrets:
+  nuget_token:
+    environment: NUGET_AUTH_TOKEN
+
+volumes:
+  postgres_data:
