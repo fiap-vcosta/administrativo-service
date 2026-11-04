@@ -1,0 +1,28 @@
+using Domain.Entities;
+using Domain.ValueObjects;
+
+namespace UnitTests.Domain.Entities;
+
+public class VeiculoAggregateRootTests
+{
+    [Fact]
+    public void CreateVeiculoAggregateRoot_SetsPropertiesCorrectly()
+    {
+        // Arrange
+        var veiculo = new VeiculoAggregateRoot
+        {
+            Id = 7,
+            IdCliente = 42,
+            Placa = "ABC-1234",
+            Modelo = "Civic",
+            Marca = "Honda"
+        };
+
+        // Act & Assert
+        Assert.Equal(7, veiculo.Id);
+        Assert.Equal(42, veiculo.IdCliente);
+        Assert.Equal("ABC-1234", veiculo.Placa);
+        Assert.Equal("Civic", veiculo.Modelo);
+        Assert.Equal("Honda", veiculo.Marca);
+    }
+}

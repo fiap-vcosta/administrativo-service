@@ -52,6 +52,20 @@ cp .env.example .env   # ou use o .env gerado pelo setup-local-jwt
 docker compose --profile app up --build
 ```
 
+## Testes
+
+```bash
+dotnet test tests/UnitTests/UnitTests.csproj -c Release \
+  "/p:CollectCoverage=true" \
+  "/p:CoverletOutputFormat=cobertura" \
+  "/p:Include=[Domain]*%2c[Application]*%2c[Infrastructure]*%2c[Api]*" \
+  "/p:Threshold=80" \
+  "/p:ThresholdType=line%2Cbranch" \
+  "/p:ThresholdStat=minimum"
+# Integração precisa de Docker (Testcontainers Postgres)
+dotnet test tests/IntegrationTests/IntegrationTests.csproj -c Release
+```
+
 ## Build
 
 ```bash

@@ -1,0 +1,14 @@
+---
+description: Política de testes unitários e de integração
+globs: "tests/**/*"
+alwaysApply: false
+---
+
+# Testes
+
+- **AAA obrigatório**: `// Arrange`, `// Act`, `// Assert`.
+- Unitários: um arquivo por tipo de produção, espelhando `src/` sob `tests/UnitTests/`.
+- Controllers sob teste seguem audiência P19 (`Staff/` / `SystemApi/` / `Business/` se existir).
+- Integração: `WebApplicationFactory` + Testcontainers Postgres; JWT staff via RSA de teste (sem login HTTP).
+- Sem seed EF; cadastros nos testes de integração.
+- Meta: ≥ **80%** line e branch por assembly (`Api`, `Application`, `Infrastructure`, `Domain`), excluindo `Program`, Extensions de host e Migrations.
