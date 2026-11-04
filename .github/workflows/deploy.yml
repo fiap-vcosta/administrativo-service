@@ -14,3 +14,7 @@ jobs:
       image_name: administrativo-service
       deployment_name: administrativo-service
       smoke_url: https://vcosta-fiap.online/administrativo/health
+      connection_string_sm_secret: administrativo-service-connection-string
+      service_auth_sm_secret: administrativo-service-service-auth-key
+    secrets:
+      DD_API_KEY: ${{ secrets.DD_API_KEY }}

@@ -94,7 +94,7 @@ Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-servic
 | Usuário `administrativo` | Login da app com `database_roles = [administrativo_app]` (sem `cloudsqlsuperuser`) |
 | Secrets SM | `administrativo-service-connection-string`, `administrativo-service-service-auth-key` |
 
-`tf-apply` / `tf-destroy` são manuais. O Secret Kubernetes `administrativo-service` (incl. `DD_API_KEY`) **não** é criado pelo deploy nem por este stack — materializar a partir do SM + chave Datadog antes do `deploy`.
+`tf-apply` / `tf-destroy` são manuais. O `deploy` monta o Secret Kubernetes `administrativo-service` a partir do Secret Manager (connection string + `ServiceAuth__Key`) e do org secret `DD_API_KEY`.
 
 ## CD (GCP)
 
@@ -102,12 +102,12 @@ Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-servic
 |----------|---------|--------|
 | `build-push` | push em `main` | Imagem `administrativo-service` no Artifact Registry (BuildKit + `packages: read` para o `building-blocks`) |
 | `tf-apply` / `tf-destroy` | `workflow_dispatch` | Database, usuário, role e secrets SM |
-| `deploy` | `workflow_dispatch` | Aplica `k8s/` (exceto secrets), rollout e smoke em `https://vcosta-fiap.online/administrativo/health` |
+| `deploy` | `workflow_dispatch` | Secret k8s + manifests `k8s/` + rollout + smoke em `https://vcosta-fiap.online/administrativo/health` |
 
 Pré-requisitos do `deploy`:
 
 1. Cluster + Gateway do [`infra-k8s`](https://github.com/fiap-vcosta/infra-k8s) no ar
-2. `tf-apply` deste repo já aplicado; Secret Kubernetes `administrativo-service` com `ConnectionStrings__DefaultConnection`, `ServiceAuth__Key` e `DD_API_KEY`
+2. `tf-apply` deste repo já aplicado (database + secrets no SM)
 3. Imagem já publicada pelo `build-push`
 
 O `HTTPRoute` expõe só o prefixo público `/administrativo`. Rotas `/system/administrativo/…` ficam no cluster. JWT staff/cliente no ConfigMap valida JWKS em `https://vcosta-fiap.online/autenticacao/.well-known/jwks.json` (iss/aud: `autenticacao-service` / `funcionario`|`cliente`) — o smoke atual é só health.

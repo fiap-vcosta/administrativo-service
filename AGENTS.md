@@ -22,7 +22,7 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 | `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
 | `.github/workflows/ci.yml` | Callers `ci-dotnet` + `ci-terraform` |
 | `.github/workflows/build-push.yml` | Merge `main` → Artifact Registry |
-| `.github/workflows/deploy.yml` | Manual → manifests + smoke `/administrativo/health` |
+| `.github/workflows/deploy.yml` | Manual → Secret k8s (SM + DD) + manifests + smoke `/administrativo/health` |
 | `nuget.config` | `building-blocks` → GitHub Packages |
 
 Dependências apontam para dentro. Sem comentários narrativos em C#. Sem seed EF.
