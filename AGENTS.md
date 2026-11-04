@@ -18,6 +18,8 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 | `src/Api` | Controllers por audiência (`Staff/` + `SystemApi/`), health, Swagger |
 | `tests/UnitTests` | Unitários (gate Coverlet 80% line/branch por assembly) |
 | `tests/IntegrationTests` | HTTP + Testcontainers Postgres |
+| `terraform/` | Root module GCP (casca; recursos na entrega de TF) |
+| `.github/workflows/ci.yml` | Callers `ci-dotnet` + `ci-terraform` |
 | `nuget.config` | `building-blocks` → GitHub Packages |
 
 Dependências apontam para dentro. Sem comentários narrativos em C#. Sem seed EF.

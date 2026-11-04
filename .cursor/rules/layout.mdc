@@ -10,7 +10,8 @@ alwaysApply: true
 - `src/Infrastructure` — persistência e integrações; implementa ports
 - `src/Api` — HTTP na borda
 - `tests/` espelhando `src/`
-- `k8s/`, `terraform/`, `Dockerfile`, `docker-compose.yml` (quando existirem)
+- `k8s/`, `Dockerfile`, `docker-compose.yml` (quando existirem)
+- `terraform/` — root module GCP do serviço (`fmt`/`validate` no CI; apply manual)
 
 Dependências da Clean Architecture apontam para dentro: Api → Application → Domain; Infrastructure implementa ports.
 
