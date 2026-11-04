@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database;
@@ -18,9 +19,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         clientes.HasIndex(c => c.TipoDocumento);
         clientes.Property(c => c.TipoDocumento).HasConversion<string>().IsRequired();
         clientes.HasIndex(c => c.Documento).IsUnique();
-        clientes.Property(c => c.Documento).IsRequired();
+        clientes.Property(c => c.Documento)
+            .HasConversion(
+                documento => documento.Valor,
+                valor => Documento.Criar(valor))
+            .IsRequired();
         clientes.Property(c => c.Nome).IsRequired();
         clientes.Property(c => c.Email).IsRequired();
+
 
         var veiculos = modelBuilder.Entity<VeiculoAggregateRoot>();
         veiculos.HasKey(v => v.Id);

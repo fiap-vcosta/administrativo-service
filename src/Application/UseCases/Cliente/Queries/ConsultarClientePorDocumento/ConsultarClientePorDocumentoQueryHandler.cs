@@ -1,5 +1,5 @@
 using Application.Abstractions.Gateways;
-using Domain;
+using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.UseCases.Cliente.Queries.ConsultarClientePorDocumento;
@@ -11,7 +11,7 @@ public class ConsultarClientePorDocumentoQueryHandler(IClienteGateway clienteGat
         ConsultarClientePorDocumentoQuery request,
         CancellationToken cancellationToken)
     {
-        var documento = DocumentoNormalizer.Normalize(request.Documento);
+        var documento = Documento.Criar(request.Documento);
         var cliente = await clienteGateway.GetByDocumentoAsync(documento);
         return cliente is not null;
     }

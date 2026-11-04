@@ -1,7 +1,7 @@
 using Application.Abstractions.Gateways;
 using Application.UseCases.Cliente.Responses;
-using Domain;
 using Domain.Exceptions;
+using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.UseCases.Cliente.Commands.UpdateCliente;
@@ -17,7 +17,7 @@ public class UpdateClienteCommandHandler(IClienteGateway clienteGateway)
             throw new DomainNotFoundException($"Cliente com id {request.Id} não encontrado");
         }
 
-        var documento = DocumentoNormalizer.Normalize(request.Documento);
+        var documento = Documento.Criar(request.Documento);
         var existingCliente = await clienteGateway.GetByDocumentoAsync(documento);
         if (existingCliente != null && existingCliente.Id != cliente.Id)
         {
@@ -37,7 +37,7 @@ public class UpdateClienteCommandHandler(IClienteGateway clienteGateway)
             Nome = cliente.Nome,
             Email = cliente.Email,
             TipoDocumento = cliente.TipoDocumento,
-            Documento = cliente.Documento
+            Documento = cliente.Documento.Valor
         };
     }
 }

@@ -1,5 +1,6 @@
 using Application.Abstractions.Gateways;
 using Domain.Entities;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.Gateways;
@@ -16,7 +17,7 @@ public class ClienteGateway(AppDbContext context) : IClienteGateway
         return await context.Clientes.ToListAsync();
     }
 
-    public async Task<ClienteAggregateRoot?> GetByDocumentoAsync(string documento)
+    public async Task<ClienteAggregateRoot?> GetByDocumentoAsync(Documento documento)
     {
         return await context.Clientes.FirstOrDefaultAsync(c => c.Documento == documento);
     }

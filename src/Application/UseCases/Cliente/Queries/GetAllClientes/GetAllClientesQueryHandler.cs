@@ -16,7 +16,7 @@ public class GetAllClientesQueryHandler(IClienteGateway clienteGateway)
             Nome = c.Nome,
             Email = c.Email,
             TipoDocumento = c.TipoDocumento,
-            Documento = c.Documento
+            Documento = c.Documento.Valor
         }).ToList();
     }
 }

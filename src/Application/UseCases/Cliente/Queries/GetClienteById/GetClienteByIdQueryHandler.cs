@@ -24,7 +24,7 @@ public class GetClienteByIdQueryHandler(IClienteGateway clienteGateway, IVeiculo
             Nome = cliente.Nome,
             Email = cliente.Email,
             TipoDocumento = cliente.TipoDocumento,
-            Documento = cliente.Documento,
+            Documento = cliente.Documento.Valor,
             Veiculos = veiculos.Select(v => new VeiculoResponse
             {
                 Id = v.Id,
