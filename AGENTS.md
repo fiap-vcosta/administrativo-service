@@ -12,7 +12,7 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 
 | Peça | Papel |
 |------|--------|
-| `src/Domain` | Entities Cliente / Veículo / Serviço + `DocumentoNormalizer` |
+| `src/Domain` | Entities (Cliente / Veículo / Serviço) + `DocumentoNormalizer` |
 | `src/Application` | UseCases MediatR + `IClienteGateway` / `IVeiculoGateway` / `IServicoGateway` |
 | `src/Infrastructure` | EF Core, gateways, `AddInfrastructure`, migration sem seed |
 | `nuget.config` | `building-blocks` → GitHub Packages (consumo na Api) |

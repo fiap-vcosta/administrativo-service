@@ -1,5 +1,5 @@
 using Application.Abstractions.Gateways;
-using Domain.Administrativo.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.Gateways;

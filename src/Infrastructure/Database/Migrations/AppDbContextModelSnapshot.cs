@@ -21,7 +21,7 @@ namespace Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Administrativo.Entities.ClienteAggregateRoot", b =>
+            modelBuilder.Entity("Domain.Entities.ClienteAggregateRoot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace Infrastructure.Database.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("Domain.Administrativo.Entities.ServicoAggregateRoot", b =>
+            modelBuilder.Entity("Domain.Entities.ServicoAggregateRoot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +86,7 @@ namespace Infrastructure.Database.Migrations
                     b.ToTable("Servicos");
                 });
 
-            modelBuilder.Entity("Domain.Administrativo.Entities.VeiculoAggregateRoot", b =>
+            modelBuilder.Entity("Domain.Entities.VeiculoAggregateRoot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,9 +119,9 @@ namespace Infrastructure.Database.Migrations
                     b.ToTable("Veiculos");
                 });
 
-            modelBuilder.Entity("Domain.Administrativo.Entities.VeiculoAggregateRoot", b =>
+            modelBuilder.Entity("Domain.Entities.VeiculoAggregateRoot", b =>
                 {
-                    b.HasOne("Domain.Administrativo.Entities.ClienteAggregateRoot", null)
+                    b.HasOne("Domain.Entities.ClienteAggregateRoot", null)
                         .WithMany()
                         .HasForeignKey("IdCliente")
                         .OnDelete(DeleteBehavior.Restrict)

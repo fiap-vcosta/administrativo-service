@@ -1,4 +1,4 @@
-using Domain.Administrativo.Entities;
+using Domain.Entities;
 
 namespace Application.Abstractions.Gateways;
 
