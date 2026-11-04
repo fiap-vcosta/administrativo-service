@@ -14,11 +14,12 @@ Requisitos: [docs/01_requisitos.md](docs/01_requisitos.md).
 | `src/Application` | Use cases MediatR + gateways |
 | `src/Infrastructure` | EF Core (PostgreSQL), migration **sem seed** |
 | `src/Api` | Controllers `Staff/` + `SystemApi/` (`/administrativo/…` e `/system/administrativo/…`) |
-| `terraform/` | Root module GCP do serviço (database/usuário/secret na próxima entrega) |
+| `terraform/` | Database `administrativo`, usuário com role `administrativo_app`, secrets SM |
 | `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
-| `.github/workflows/ci.yml` | Caller `ci-dotnet` (Packages + Sonar) e `ci-terraform` (`fmt`/`validate`) |
+| `.github/workflows/ci.yml` | Caller `ci-dotnet` (Packages + Sonar) e `ci-terraform` (`fmt`/`validate`/`plan`) |
 | `.github/workflows/build-push.yml` | Merge em `main` → imagem no Artifact Registry |
 | `.github/workflows/deploy.yml` | Manual → apply `k8s/` + rollout + smoke health |
+| `.github/workflows/tf-apply.yml` / `tf-destroy.yml` | Manual → database/usuário/secret |
 
 ## Dados de demo
 
@@ -78,21 +79,35 @@ dotnet test tests/IntegrationTests/IntegrationTests.csproj -c Release
 Caller dos reusables em [`fiap-vcosta/actions`](https://github.com/fiap-vcosta/actions):
 
 - **dotnet** — InspectCode, unit (gate 80%), integração, SonarCloud (`fiap-vcosta_administrativo-service`); restore do `building-blocks` via GitHub Packages (`packages: read`)
-- **terraform** — `fmt` / `validate` (plan OIDC fica para quando o module e o backend existirem)
+- **terraform** — `fmt` / `validate` / `plan` (OIDC) no root `terraform/`
 
 Secret necessário no repo: `SONAR_TOKEN`.
+
+## Terraform (GCP)
+
+Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-service`. Lê a instância Cloud SQL do state [`infra-db`](https://github.com/fiap-vcosta/infra-db).
+
+| Recurso | Papel |
+|---------|--------|
+| Database `administrativo` | Banco do serviço |
+| Role `administrativo_app` + `REVOKE CONNECT … FROM PUBLIC` | Isolamento cross-database (Data API; exige `ALLOW_DATA_API` na instância) |
+| Usuário `administrativo` | Login da app com `database_roles = [administrativo_app]` (sem `cloudsqlsuperuser`) |
+| Secrets SM | `administrativo-service-connection-string`, `administrativo-service-service-auth-key` |
+
+`tf-apply` / `tf-destroy` são manuais. O Secret Kubernetes `administrativo-service` (incl. `DD_API_KEY`) **não** é criado pelo deploy nem por este stack — materializar a partir do SM + chave Datadog antes do `deploy`.
 
 ## CD (GCP)
 
 | Workflow | Gatilho | Papel |
 |----------|---------|--------|
 | `build-push` | push em `main` | Imagem `administrativo-service` no Artifact Registry (BuildKit + `packages: read` para o `building-blocks`) |
+| `tf-apply` / `tf-destroy` | `workflow_dispatch` | Database, usuário, role e secrets SM |
 | `deploy` | `workflow_dispatch` | Aplica `k8s/` (exceto secrets), rollout e smoke em `https://vcosta-fiap.online/administrativo/health` |
 
-Pré-requisitos do `deploy` (fora deste PR):
+Pré-requisitos do `deploy`:
 
 1. Cluster + Gateway do [`infra-k8s`](https://github.com/fiap-vcosta/infra-k8s) no ar
-2. Database/usuário/secret do serviço (entrega Terraform deste repo) e Secret Kubernetes `administrativo-service` com pelo menos `ConnectionStrings__DefaultConnection`, `ServiceAuth__Key` e `DD_API_KEY`
+2. `tf-apply` deste repo já aplicado; Secret Kubernetes `administrativo-service` com `ConnectionStrings__DefaultConnection`, `ServiceAuth__Key` e `DD_API_KEY`
 3. Imagem já publicada pelo `build-push`
 
 O `HTTPRoute` expõe só o prefixo público `/administrativo`. Rotas `/system/administrativo/…` ficam no cluster. JWT staff/cliente no ConfigMap valida JWKS em `https://vcosta-fiap.online/autenticacao/.well-known/jwks.json` (iss/aud: `autenticacao-service` / `funcionario`|`cliente`) — o smoke atual é só health.
