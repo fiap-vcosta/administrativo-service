@@ -6,31 +6,38 @@
   },
   "records": [
     {
-      "id": "adm-root",
+      "id": "a1000001-0000-4000-8000-000000000001",
       "name": "administrativo-service",
       "type": "collection",
       "parentId": null,
       "deleted": false,
       "data": {
-        "auth": { "type": "inherit" }
+        "auth": {
+          "type": "inherit"
+        }
       },
       "rank": "a0",
-      "description": "Sem seed no banco: crie cliente/veículo/serviço antes de consultar. JWT staff: ./scripts/setup-local-jwt.sh && ./scripts/mint-staff-jwt.sh → variável token. Environments: Docker (http://localhost:8080)."
+      "description": "Sem seed no banco: crie cliente/veículo/serviço antes de consultar. JWT staff: ./scripts/setup-local-jwt.sh && ./scripts/mint-staff-jwt.sh → variável token. Environment Docker: http://localhost:8080."
     },
     {
-      "id": "adm-health",
+      "id": "a1000001-0000-4000-8000-000000000010",
       "name": "01-health",
       "type": "collection",
-      "parentId": "adm-root",
+      "parentId": "a1000001-0000-4000-8000-000000000001",
       "deleted": false,
-      "data": { "auth": { "type": "inherit" } },
-      "rank": "a0"
+      "data": {
+        "auth": {
+          "type": "inherit"
+        }
+      },
+      "rank": "a0",
+      "description": "Health check (sem auth)."
     },
     {
-      "id": "adm-health-get",
+      "id": "a1000001-0000-4000-8000-000000000011",
       "name": "health",
       "type": "api",
-      "parentId": "adm-health",
+      "parentId": "a1000001-0000-4000-8000-000000000010",
       "deleted": false,
       "data": {
         "type": "http",
@@ -40,30 +47,37 @@
           "headers": [],
           "queryParams": [],
           "pathVariables": [],
-          "body": { "contentType": "none" },
+          "body": {
+            "contentType": "none"
+          },
           "contentType": "none"
         },
-        "auth": { "type": "inherit" }
+        "auth": {
+          "type": "inherit"
+        }
       },
       "rank": "a0"
     },
     {
-      "id": "adm-crud",
+      "id": "a1000001-0000-4000-8000-000000000020",
       "name": "02-crud",
       "type": "collection",
-      "parentId": "adm-root",
+      "parentId": "a1000001-0000-4000-8000-000000000001",
       "deleted": false,
       "data": {
-        "auth": { "type": "bearer_token", "token": "{{token}}" }
+        "auth": {
+          "type": "bearer_token",
+          "token": "{{token}}"
+        }
       },
       "rank": "a1",
-      "description": "JWT staff (FuncionarioJwt). Cole o token emitido por scripts/mint-staff-jwt.sh."
+      "description": "JWT staff (FuncionarioJwt). Cole o token emitido por scripts/mint-staff-jwt.sh na variável token do environment."
     },
     {
-      "id": "adm-cliente-create",
+      "id": "a1000001-0000-4000-8000-000000000021",
       "name": "POST cliente",
       "type": "api",
-      "parentId": "adm-crud",
+      "parentId": "a1000001-0000-4000-8000-000000000020",
       "deleted": false,
       "data": {
         "type": "http",
@@ -71,7 +85,13 @@
           "url": "{{baseUrl}}/administrativo/clientes",
           "method": "POST",
           "headers": [
-            { "id": 1, "key": "Content-Type", "value": "application/json", "isEnabled": true, "description": "" }
+            {
+              "id": 1,
+              "key": "Content-Type",
+              "value": "application/json",
+              "isEnabled": true,
+              "description": ""
+            }
           ],
           "queryParams": [],
           "pathVariables": [],
@@ -82,7 +102,9 @@
           },
           "contentType": "raw"
         },
-        "auth": { "type": "inherit" },
+        "auth": {
+          "type": "inherit"
+        },
         "scripts": {
           "postResponse": "var j = rq.response.json(); if (j && j.id) { rq.environment.set(\"clienteId\", j.id); }"
         }
@@ -90,10 +112,10 @@
       "rank": "a0"
     },
     {
-      "id": "adm-veiculo-create",
+      "id": "a1000001-0000-4000-8000-000000000022",
       "name": "POST veiculo",
       "type": "api",
-      "parentId": "adm-crud",
+      "parentId": "a1000001-0000-4000-8000-000000000020",
       "deleted": false,
       "data": {
         "type": "http",
@@ -101,7 +123,13 @@
           "url": "{{baseUrl}}/administrativo/veiculos",
           "method": "POST",
           "headers": [
-            { "id": 1, "key": "Content-Type", "value": "application/json", "isEnabled": true, "description": "" }
+            {
+              "id": 1,
+              "key": "Content-Type",
+              "value": "application/json",
+              "isEnabled": true,
+              "description": ""
+            }
           ],
           "queryParams": [],
           "pathVariables": [],
@@ -112,7 +140,9 @@
           },
           "contentType": "raw"
         },
-        "auth": { "type": "inherit" },
+        "auth": {
+          "type": "inherit"
+        },
         "scripts": {
           "postResponse": "var j = rq.response.json(); if (j && j.id) { rq.environment.set(\"veiculoId\", j.id); }"
         }
@@ -120,10 +150,10 @@
       "rank": "a1"
     },
     {
-      "id": "adm-servico-create",
+      "id": "a1000001-0000-4000-8000-000000000023",
       "name": "POST servico",
       "type": "api",
-      "parentId": "adm-crud",
+      "parentId": "a1000001-0000-4000-8000-000000000020",
       "deleted": false,
       "data": {
         "type": "http",
@@ -131,7 +161,13 @@
           "url": "{{baseUrl}}/administrativo/servicos",
           "method": "POST",
           "headers": [
-            { "id": 1, "key": "Content-Type", "value": "application/json", "isEnabled": true, "description": "" }
+            {
+              "id": 1,
+              "key": "Content-Type",
+              "value": "application/json",
+              "isEnabled": true,
+              "description": ""
+            }
           ],
           "queryParams": [],
           "pathVariables": [],
@@ -142,7 +178,9 @@
           },
           "contentType": "raw"
         },
-        "auth": { "type": "inherit" },
+        "auth": {
+          "type": "inherit"
+        },
         "scripts": {
           "postResponse": "var j = rq.response.json(); if (j && j.id) { rq.environment.set(\"servicoId\", j.id); }"
         }
@@ -150,20 +188,24 @@
       "rank": "a2"
     },
     {
-      "id": "adm-system",
+      "id": "a1000001-0000-4000-8000-000000000030",
       "name": "03-system",
       "type": "collection",
-      "parentId": "adm-root",
+      "parentId": "a1000001-0000-4000-8000-000000000001",
       "deleted": false,
-      "data": { "auth": { "type": "inherit" } },
+      "data": {
+        "auth": {
+          "type": "inherit"
+        }
+      },
       "rank": "a2",
       "description": "Rotas /system com X-Service-Key (só rede local/cluster)."
     },
     {
-      "id": "adm-sys-doc",
+      "id": "a1000001-0000-4000-8000-000000000031",
       "name": "GET cliente por documento",
       "type": "api",
-      "parentId": "adm-system",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
       "deleted": false,
       "data": {
         "type": "http",
@@ -171,22 +213,32 @@
           "url": "{{baseUrl}}/system/administrativo/clientes/por-documento/86421537090",
           "method": "GET",
           "headers": [
-            { "id": 1, "key": "X-Service-Key", "value": "{{serviceKey}}", "isEnabled": true, "description": "" }
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
           ],
           "queryParams": [],
           "pathVariables": [],
-          "body": { "contentType": "none" },
+          "body": {
+            "contentType": "none"
+          },
           "contentType": "none"
         },
-        "auth": { "type": "inherit" }
+        "auth": {
+          "type": "inherit"
+        }
       },
       "rank": "a0"
     },
     {
-      "id": "adm-sys-cliente",
+      "id": "a1000001-0000-4000-8000-000000000032",
       "name": "GET cliente por id",
       "type": "api",
-      "parentId": "adm-system",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
       "deleted": false,
       "data": {
         "type": "http",
@@ -194,22 +246,32 @@
           "url": "{{baseUrl}}/system/administrativo/clientes/{{clienteId}}",
           "method": "GET",
           "headers": [
-            { "id": 1, "key": "X-Service-Key", "value": "{{serviceKey}}", "isEnabled": true, "description": "" }
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
           ],
           "queryParams": [],
           "pathVariables": [],
-          "body": { "contentType": "none" },
+          "body": {
+            "contentType": "none"
+          },
           "contentType": "none"
         },
-        "auth": { "type": "inherit" }
+        "auth": {
+          "type": "inherit"
+        }
       },
       "rank": "a1"
     },
     {
-      "id": "adm-sys-veiculo",
+      "id": "a1000001-0000-4000-8000-000000000033",
       "name": "GET veiculo por id",
       "type": "api",
-      "parentId": "adm-system",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
       "deleted": false,
       "data": {
         "type": "http",
@@ -217,22 +279,32 @@
           "url": "{{baseUrl}}/system/administrativo/veiculos/{{veiculoId}}",
           "method": "GET",
           "headers": [
-            { "id": 1, "key": "X-Service-Key", "value": "{{serviceKey}}", "isEnabled": true, "description": "" }
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
           ],
           "queryParams": [],
           "pathVariables": [],
-          "body": { "contentType": "none" },
+          "body": {
+            "contentType": "none"
+          },
           "contentType": "none"
         },
-        "auth": { "type": "inherit" }
+        "auth": {
+          "type": "inherit"
+        }
       },
       "rank": "a2"
     },
     {
-      "id": "adm-sys-servico",
+      "id": "a1000001-0000-4000-8000-000000000034",
       "name": "GET servico por id",
       "type": "api",
-      "parentId": "adm-system",
+      "parentId": "a1000001-0000-4000-8000-000000000030",
       "deleted": false,
       "data": {
         "type": "http",
@@ -240,34 +312,89 @@
           "url": "{{baseUrl}}/system/administrativo/servicos/{{servicoId}}",
           "method": "GET",
           "headers": [
-            { "id": 1, "key": "X-Service-Key", "value": "{{serviceKey}}", "isEnabled": true, "description": "" }
+            {
+              "id": 1,
+              "key": "X-Service-Key",
+              "value": "{{serviceAuthKey}}",
+              "isEnabled": true,
+              "description": ""
+            }
           ],
           "queryParams": [],
           "pathVariables": [],
-          "body": { "contentType": "none" },
+          "body": {
+            "contentType": "none"
+          },
           "contentType": "none"
         },
-        "auth": { "type": "inherit" }
+        "auth": {
+          "type": "inherit"
+        }
       },
       "rank": "a3"
+    }
+  ],
+  "environments": [
+    {
+      "id": "a1000001-0000-4000-8000-0000000000e1",
+      "name": "Docker",
+      "variables": {
+        "baseUrl": {
+          "type": "string",
+          "syncValue": "http://localhost:8080"
+        },
+        "token": {
+          "type": "secret",
+          "syncValue": ""
+        },
+        "serviceAuthKey": {
+          "type": "secret",
+          "syncValue": "local-service-auth-key-change-me"
+        },
+        "clienteId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "veiculoId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "servicoId": {
+          "type": "string",
+          "syncValue": "1"
+        }
+      }
     },
     {
-      "id": "adm-env-docker",
-      "name": "Docker",
-      "type": "environment",
-      "parentId": null,
-      "deleted": false,
-      "data": {
-        "variables": [
-          { "id": 1, "key": "baseUrl", "value": "http://localhost:8080", "isEnabled": true, "type": "string" },
-          { "id": 2, "key": "token", "value": "", "isEnabled": true, "type": "string" },
-          { "id": 3, "key": "serviceKey", "value": "local-service-auth-key-change-me", "isEnabled": true, "type": "string" },
-          { "id": 4, "key": "clienteId", "value": "1", "isEnabled": true, "type": "string" },
-          { "id": 5, "key": "veiculoId", "value": "1", "isEnabled": true, "type": "string" },
-          { "id": 6, "key": "servicoId", "value": "1", "isEnabled": true, "type": "string" }
-        ]
-      },
-      "rank": "a0"
+      "id": "a1000001-0000-4000-8000-0000000000e2",
+      "name": "Local",
+      "variables": {
+        "baseUrl": {
+          "type": "string",
+          "syncValue": "http://localhost:8080"
+        },
+        "token": {
+          "type": "secret",
+          "syncValue": ""
+        },
+        "serviceAuthKey": {
+          "type": "secret",
+          "syncValue": "local-service-auth-key-change-me"
+        },
+        "clienteId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "veiculoId": {
+          "type": "string",
+          "syncValue": "1"
+        },
+        "servicoId": {
+          "type": "string",
+          "syncValue": "1"
+        }
+      }
     }
-  ]
+  ],
+  "packages": []
 }
