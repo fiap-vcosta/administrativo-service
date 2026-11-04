@@ -1,6 +1,5 @@
 using Api.Controllers.Staff.Cliente.UpdateCliente;
 using Domain.Entities;
-using Domain.ValueObjects;
 
 namespace UnitTests.Api.Controllers.Staff.Cliente.UpdateCliente;
 

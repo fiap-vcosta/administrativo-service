@@ -1,6 +1,5 @@
 using Application.UseCases.Servico.Queries.GetServicoById;
 using Domain.Entities;
-using Domain.ValueObjects;
 using Application.Abstractions.Gateways;
 using Moq;
 

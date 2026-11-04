@@ -16,7 +16,6 @@ using Application.UseCases.Cliente.Queries.GetClienteById;
 using Application.UseCases.Veiculo.Queries.GetVeiculosByCliente;
 using Application.UseCases.Veiculo.Responses;
 using Domain.Entities;
-using Domain.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

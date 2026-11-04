@@ -1,6 +1,5 @@
 using Api.Controllers.Staff.Cliente.CreateCliente;
 using Domain.Entities;
-using Domain.ValueObjects;
 
 namespace UnitTests.Api.Controllers.Staff.Cliente.CreateCliente;
 

@@ -3,7 +3,6 @@ using Api.Presenters.Veiculo;
 using Application.UseCases.Cliente.Responses;
 using Application.UseCases.Veiculo.Responses;
 using Domain.Entities;
-using Domain.ValueObjects;
 
 namespace UnitTests.Api.Presenters.Cliente;
 
@@ -19,6 +18,7 @@ public class ClientePresenterTests
         {
             Id = 7,
             Nome = "Maria",
+            Email = "maria@example.com",
             TipoDocumento = TipoDocumento.Cpf,
             Documento = "11144477735"
         };
@@ -29,6 +29,7 @@ public class ClientePresenterTests
         // Assert
         Assert.Equal(response.Id, viewModel.Id);
         Assert.Equal(response.Nome, viewModel.Nome);
+        Assert.Equal(response.Email, viewModel.Email);
         Assert.Equal(response.TipoDocumento, viewModel.TipoDocumento);
         Assert.Equal(response.Documento, viewModel.Documento);
         Assert.Empty(viewModel.Veiculos);

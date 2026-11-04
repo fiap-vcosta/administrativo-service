@@ -1,7 +1,6 @@
 using Application.UseCases.Servico.Commands.DeleteServico;
 using Domain.Exceptions;
 using Domain.Entities;
-using Domain.ValueObjects;
 using Application.Abstractions.Gateways;
 using Moq;
 
