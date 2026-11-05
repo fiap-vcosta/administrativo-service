@@ -83,8 +83,9 @@ resource "terraform_data" "drop_database_before_app_user" {
   ]
 
   provisioner "local-exec" {
-    when    = destroy
-    command = <<-EOT
+    when        = destroy
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<-EOT
       set -euo pipefail
       gcloud sql databases delete '${self.input.database}' \
         --instance='${self.input.instance}' \
