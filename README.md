@@ -95,7 +95,7 @@ Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-servic
 | Secrets SM | `administrativo-service-connection-string` |
 | Org secret | `SERVICE_AUTH_KEY` — shared secret da malha (`X-Service-Key` / `ServiceAuth__Key`) |
 
-`tf-apply` / `tf-destroy` são manuais. O `deploy` monta o Secret Kubernetes `administrativo-service` a partir do Secret Manager (connection string) e dos org secrets `SERVICE_AUTH_KEY` + `DD_API_KEY` (modelo 1: key compartilhada da malha).
+`tf-apply` / `tf-destroy` são manuais. O `deploy` monta o Secret Kubernetes `administrativo-service` a partir do Secret Manager (connection string) e dos org secrets `SERVICE_AUTH_KEY` + `DD_API_KEY` (a mesma key em todos os serviços da malha).
 
 ## CD (GCP)
 
