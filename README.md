@@ -92,9 +92,10 @@ Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-servic
 | Database `administrativo` | Banco do serviço |
 | Role `administrativo_app` + `REVOKE CONNECT … FROM PUBLIC` | Isolamento cross-database (Data API; exige `ALLOW_DATA_API` na instância) |
 | Usuário `administrativo` | Login da app com `database_roles = [administrativo_app]` (sem `cloudsqlsuperuser`) |
-| Secrets SM | `administrativo-service-connection-string`, `administrativo-service-service-auth-key` |
+| Secrets SM | `administrativo-service-connection-string` |
+| Org secret | `SERVICE_AUTH_KEY` — shared secret da malha (`X-Service-Key` / `ServiceAuth__Key`) |
 
-`tf-apply` / `tf-destroy` são manuais. O `deploy` monta o Secret Kubernetes `administrativo-service` a partir do Secret Manager (connection string + `ServiceAuth__Key`) e do org secret `DD_API_KEY`.
+`tf-apply` / `tf-destroy` são manuais. O `deploy` monta o Secret Kubernetes `administrativo-service` a partir do Secret Manager (connection string) e dos org secrets `SERVICE_AUTH_KEY` + `DD_API_KEY` (a mesma key em todos os serviços da malha).
 
 ## CD (GCP)
 
