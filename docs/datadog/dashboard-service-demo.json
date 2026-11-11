@@ -1,65 +1,281 @@
 {
   "title": "[administrativo] dashboard",
-  "description": "Dashboard do serviço `administrativo-service` na janela GCP (APM + logs). Dashboard geral da Saga: e2e/docs/datadog/.",
+  "description": "Dashboard de `administrativo-service` com grupos coloridos: monitores, aplicação, eventos entrada/saída, DLQ, banco e negócio. Pub/Sub e Cloud SQL exigem integração GCP no Datadog.",
   "layout_type": "ordered",
   "reflow_type": "auto",
   "widgets": [
     {
       "definition": {
-        "title": "Latência p95 (APM)",
-        "type": "timeseries",
-        "requests": [
+        "title": "Monitores",
+        "background_color": "purple",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
           {
-            "q": "p95:trace.aspnet_core.request{service:administrativo-service,env:prod}",
-            "display_type": "line"
+            "definition": {
+              "type": "manage_status",
+              "query": "name:[administrativo]*",
+              "display_format": "counts",
+              "color_preference": "background",
+              "hide_zero_counts": false,
+              "show_last_triggered": true,
+              "show_priority": true,
+              "show_status": true,
+              "sort": "status,asc",
+              "count": 50,
+              "start": 0,
+              "summary_type": "monitors",
+              "title": "Monitores [administrativo]",
+              "title_size": "16",
+              "title_align": "left"
+            }
+          },
+          {
+            "definition": {
+              "type": "note",
+              "content": "Importe os JSON `monitor-*.json` deste repo antes. Query do widget: `name:[administrativo]*` (tags `service:administrativo-service` / `env:prod`).",
+              "background_color": "white",
+              "font_size": "14",
+              "text_align": "left",
+              "vertical_align": "top",
+              "show_tick": false,
+              "has_padding": true
+            }
           }
         ]
       }
     },
     {
       "definition": {
-        "title": "Erros HTTP (APM)",
-        "type": "timeseries",
-        "requests": [
+        "title": "Aplicação",
+        "background_color": "vivid_blue",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
           {
-            "q": "sum:trace.aspnet_core.request.errors{service:administrativo-service,env:prod}.as_count()",
-            "display_type": "bars"
+            "definition": {
+              "title": "Latência p95 (APM)",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "p95:trace.aspnet_core.request{service:administrativo-service,env:prod}",
+                  "display_type": "line"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Erros HTTP (APM)",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "sum:trace.aspnet_core.request.errors{service:administrativo-service,env:prod}.as_count()",
+                  "display_type": "bars"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Hits HTTP (APM)",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "sum:trace.aspnet_core.request.hits{service:administrativo-service,env:prod}.as_count()",
+                  "display_type": "bars"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Health hits",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "sum:trace.aspnet_core.request.hits{service:administrativo-service,env:prod,resource_name:get_/administrativo/health}.as_count()",
+                  "display_type": "bars"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Runtime .NET — CPU %",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:runtime.dotnet.cpu.percent{service:administrativo-service,env:prod}",
+                  "display_type": "line"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Runtime .NET — memória committed",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:runtime.dotnet.mem.committed{service:administrativo-service,env:prod}",
+                  "display_type": "line"
+                }
+              ]
+            }
           }
         ]
       }
     },
     {
       "definition": {
-        "title": "Hits HTTP (APM)",
-        "type": "timeseries",
-        "requests": [
+        "title": "Eventos de entrada (consume)",
+        "background_color": "orange",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
           {
-            "q": "sum:trace.aspnet_core.request.hits{service:administrativo-service,env:prod}.as_count()",
-            "display_type": "bars"
+            "definition": {
+              "type": "note",
+              "content": "`administrativo-service` não consome Pub/Sub.",
+              "background_color": "white",
+              "font_size": "14",
+              "text_align": "left",
+              "vertical_align": "top",
+              "show_tick": false,
+              "has_padding": true
+            }
           }
         ]
       }
     },
     {
       "definition": {
-        "title": "Runtime .NET — CPU %",
-        "type": "timeseries",
-        "requests": [
+        "title": "Dead-letter (DLQ)",
+        "background_color": "pink",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
           {
-            "q": "avg:runtime.dotnet.cpu.percent{service:administrativo-service,env:prod}",
-            "display_type": "line"
+            "definition": {
+              "type": "note",
+              "content": "Sem subscriptions → sem DLQ neste serviço.",
+              "background_color": "white",
+              "font_size": "14",
+              "text_align": "left",
+              "vertical_align": "top",
+              "show_tick": false,
+              "has_padding": true
+            }
           }
         ]
       }
     },
     {
       "definition": {
-        "title": "Runtime .NET — memória committed",
-        "type": "timeseries",
-        "requests": [
+        "title": "Eventos de saída (publish)",
+        "background_color": "green",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
           {
-            "q": "avg:runtime.dotnet.mem.committed{service:administrativo-service,env:prod}",
-            "display_type": "line"
+            "definition": {
+              "type": "note",
+              "content": "`administrativo-service` não publica Pub/Sub.",
+              "background_color": "white",
+              "font_size": "14",
+              "text_align": "left",
+              "vertical_align": "top",
+              "show_tick": false,
+              "has_padding": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Banco de dados (Cloud SQL)",
+        "background_color": "gray",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "definition": {
+              "title": "CPU utilization",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:gcp.cloudsql.database.cpu.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "display_type": "line"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Memory utilization",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:gcp.cloudsql.database.memory.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "display_type": "line"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Connections",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:gcp.cloudsql.database.network.connections{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "display_type": "line"
+                }
+              ]
+            }
+          },
+          {
+            "definition": {
+              "title": "Disk utilization",
+              "type": "timeseries",
+              "requests": [
+                {
+                  "q": "avg:gcp.cloudsql.database.disk.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "display_type": "line"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "title": "Insights de negócio",
+        "background_color": "yellow",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "definition": {
+              "type": "note",
+              "content": "Sem widgets de negócio específicos neste serviço.",
+              "background_color": "white",
+              "font_size": "14",
+              "text_align": "left",
+              "vertical_align": "top",
+              "show_tick": false,
+              "has_padding": true
+            }
           }
         ]
       }
