@@ -1,5 +1,11 @@
 # administrativo-service
 
+[![Quality Gate](https://sonarcloud.io/api/project_badges/quality_gate?project=fiap-vcosta_administrativo-service)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
+[![Reliability](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
+[![Security](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
+[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
+[![Duplications](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
+
 Serviço do catálogo da oficina: cliente, veículo e serviço. Expõe a API pública do administrativo e uma API interna para os outros serviços consultarem esses dados.
 
 Stack: .NET 8 e PostgreSQL. Org [fiap-vcosta](https://github.com/fiap-vcosta). Pacote compartilhado: [`building-blocks`](https://github.com/fiap-vcosta/building-blocks) **1.0.0** (GitHub Packages).

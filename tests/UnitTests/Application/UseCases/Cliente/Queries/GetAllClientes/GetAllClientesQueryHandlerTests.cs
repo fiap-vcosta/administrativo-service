@@ -41,7 +41,7 @@ public class GetAllClientesQueryHandlerTests
     {
         // Arrange
         _mockGateway.Setup(r => r.GetAllAsync())
-            .ReturnsAsync(new List<ClienteAggregateRoot>());
+            .ReturnsAsync([]);
 
         var handler = new GetAllClientesQueryHandler(_mockGateway.Object);
         var query = new GetAllClientesQuery();
