@@ -126,7 +126,7 @@ resource "google_sql_provision_script" "grants" {
   instance    = google_sql_database_instance.main.name
   database    = google_sql_database.service.name
   description = "Grants schema public para o usuário da app"
-  script      = file("${path.module}/harden.sql")
+  script      = file("${path.module}/grant.sql")
   user        = google_sql_user.provisioner.name
 
   password_secret_version = google_secret_manager_regional_secret_version.provisioner_password.name

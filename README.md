@@ -91,7 +91,7 @@ Secret necessário no repo: `SONAR_TOKEN`.
 
 ## Terraform (GCP)
 
-Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-service`. Cria a **própria** instância Cloud SQL; a VPC vem do state do [`infra-bootstrap`](https://github.com/fiap-vcosta/infra-bootstrap). ADR: [`docs/adrs/001-instancia-cloud-sql-propria.md`](docs/adrs/001-instancia-cloud-sql-propria.md).
+Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-service`. Cria a **própria** instância Cloud SQL; a VPC vem do state do [`infra-bootstrap`](https://github.com/fiap-vcosta/infra-bootstrap). Decisão de sistema: ADR no [`e2e`](https://github.com/fiap-vcosta/e2e/blob/main/docs/adrs/001-instancia-cloud-sql-por-servico.md) (1 instância por serviço SQL).
 
 | Recurso | Papel |
 |---------|--------|
