@@ -20,6 +20,16 @@ resource "google_sql_database_instance" "main" {
     data_api_access   = "ALLOW_DATA_API"
 
     database_flags {
+      name  = "log_checkpoints"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_checkpoints"
+      value = "on"
+    }
+
+    database_flags {
       name  = "log_connections"
       value = "on"
     }
@@ -27,6 +37,26 @@ resource "google_sql_database_instance" "main" {
     database_flags {
       name  = "log_disconnections"
       value = "on"
+    }
+
+    database_flags {
+      name  = "log_lock_waits"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_temp_files"
+      value = "0"
+    }
+
+    database_flags {
+      name  = "log_lock_waits"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_temp_files"
+      value = "0"
     }
 
     ip_configuration {
