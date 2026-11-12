@@ -24,6 +24,11 @@ resource "google_sql_database_instance" "main" {
       value = "on"
     }
 
+    database_flags {
+      name  = "log_disconnections"
+      value = "on"
+    }
+
     ip_configuration {
       ipv4_enabled                                  = false
       private_network                               = data.terraform_remote_state.bootstrap.outputs.network_id
