@@ -84,12 +84,6 @@ resource "random_password" "app" {
   special = false
 }
 
-resource "google_sql_database" "service" {
-  name     = local.db_name
-  instance = google_sql_database_instance.main.name
-  project  = var.project_id
-}
-
 resource "google_sql_user" "provisioner" {
   name     = local.provisioner_user
   instance = google_sql_database_instance.main.name
@@ -118,8 +112,17 @@ resource "google_sql_user" "app" {
   instance = google_sql_database_instance.main.name
   project  = var.project_id
   password = random_password.app.result
+}
 
-  depends_on = [google_sql_database.service]
+resource "google_sql_database" "service" {
+  name     = local.db_name
+  instance = google_sql_database_instance.main.name
+  project  = var.project_id
+
+  depends_on = [
+    google_sql_user.provisioner,
+    google_sql_user.app,
+  ]
 }
 
 resource "google_sql_provision_script" "grants" {
