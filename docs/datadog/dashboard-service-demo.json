@@ -250,7 +250,7 @@
               "type": "timeseries",
               "requests": [
                 {
-                  "q": "avg:gcp.cloudsql.database.cpu.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "q": "avg:gcp.cloudsql.database.cpu.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:administrativo-service-pg}",
                   "display_type": "line"
                 }
               ]
@@ -262,7 +262,7 @@
               "type": "timeseries",
               "requests": [
                 {
-                  "q": "avg:gcp.cloudsql.database.memory.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "q": "avg:gcp.cloudsql.database.memory.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:administrativo-service-pg}",
                   "display_type": "line"
                 }
               ]
@@ -274,7 +274,7 @@
               "type": "timeseries",
               "requests": [
                 {
-                  "q": "avg:gcp.cloudsql.database.network.connections{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "q": "avg:gcp.cloudsql.database.network.connections{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:administrativo-service-pg}",
                   "display_type": "line"
                 }
               ]
@@ -286,7 +286,7 @@
               "type": "timeseries",
               "requests": [
                 {
-                  "q": "avg:gcp.cloudsql.database.disk.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:tech-challenge-pg}",
+                  "q": "avg:gcp.cloudsql.database.disk.utilization{project_id:vcosta-fiap-tech-challenge,database_id:vcosta-fiap-tech-challenge:administrativo-service-pg}",
                   "display_type": "line"
                 }
               ]

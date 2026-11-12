@@ -18,7 +18,8 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 | `src/Api` | Controllers por audiência (`Staff/` + `SystemApi/`), health, Swagger |
 | `tests/UnitTests` | Unitários (gate Coverlet 80% line/branch por assembly) |
 | `tests/IntegrationTests` | HTTP + Testcontainers Postgres |
-| `terraform/` | Root module GCP (casca; recursos na entrega de TF) |
+| `terraform/` | Instância Cloud SQL própria + database/usuário/secrets; VPC via remote state do bootstrap |
+| `docs/adrs/` | ADRs do serviço (ex. instância SQL própria) |
 | `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
 | `.github/workflows/ci.yml` | Callers `ci-dotnet` + `ci-terraform` |
 | `.github/workflows/build-push.yml` | Merge `main` → Artifact Registry |
