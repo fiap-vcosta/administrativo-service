@@ -15,7 +15,7 @@ data:
   Jwt__Cliente__Audience: "cliente"
   Jwt__Cliente__JwksUrl: "https://vcosta-fiap.online/autenticacao/.well-known/jwks.json"
   Jwt__Cliente__RequireHttpsMetadata: "true"
-  CLOUD_SQL_CONNECTION_NAME: "vcosta-fiap-tech-challenge:us-central1:tech-challenge-pg"
+  CLOUD_SQL_CONNECTION_NAME: "vcosta-fiap-tech-challenge:us-central1:administrativo-service-pg"
   DD_SERVICE: "administrativo-service"
   DD_ENV: "prod"
   DD_AGENT_HOST: "127.0.0.1"

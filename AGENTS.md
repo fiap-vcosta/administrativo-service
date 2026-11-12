@@ -4,7 +4,7 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 
 ## Antes de mudar código
 
-1. Ler o README deste repositório e, quando existirem, ADRs em `docs/adrs/`
+1. Ler o README deste repositório
 2. Não inventar features fora do escopo descrito nas rules
 3. **Git:** nunca commit/push direto em `main` — branch → PR → merge (ver [`.cursor/rules/git-workflow.mdc`](.cursor/rules/git-workflow.mdc))
 
@@ -18,7 +18,7 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Org [fiap-vcosta
 | `src/Api` | Controllers por audiência (`Staff/` + `SystemApi/`), health, Swagger |
 | `tests/UnitTests` | Unitários (gate Coverlet 80% line/branch por assembly) |
 | `tests/IntegrationTests` | HTTP + Testcontainers Postgres |
-| `terraform/` | Root module GCP (casca; recursos na entrega de TF) |
+| `terraform/` | Instância Cloud SQL própria + database/usuário/secrets; VPC via remote state do bootstrap |
 | `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
 | `.github/workflows/ci.yml` | Callers `ci-dotnet` + `ci-terraform` |
 | `.github/workflows/build-push.yml` | Merge `main` → Artifact Registry |
