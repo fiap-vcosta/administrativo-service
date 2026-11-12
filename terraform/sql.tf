@@ -19,10 +19,16 @@ resource "google_sql_database_instance" "main" {
     edition           = "ENTERPRISE"
     data_api_access   = "ALLOW_DATA_API"
 
+    database_flags {
+      name  = "log_connections"
+      value = "on"
+    }
+
     ip_configuration {
       ipv4_enabled                                  = false
       private_network                               = data.terraform_remote_state.bootstrap.outputs.network_id
       enable_private_path_for_google_cloud_services = true
+      ssl_mode                                      = "ENCRYPTED_ONLY"
     }
 
     backup_configuration {
