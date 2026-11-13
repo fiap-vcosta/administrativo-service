@@ -1,6 +1,7 @@
 # administrativo-service
 
 [![Quality Gate](https://sonarcloud.io/api/project_badges/quality_gate?project=fiap-vcosta_administrativo-service)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
 [![Reliability](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
 [![Security](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
 [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=fiap-vcosta_administrativo-service&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fiap-vcosta_administrativo-service)
@@ -10,7 +11,9 @@ Serviço do catálogo da oficina: cliente, veículo e serviço. Expõe a API pú
 
 Stack: .NET 8 e PostgreSQL. Org [fiap-vcosta](https://github.com/fiap-vcosta). Pacote compartilhado: [`building-blocks`](https://github.com/fiap-vcosta/building-blocks) **1.0.0** (GitHub Packages).
 
-Requisitos: [docs/01_requisitos.md](docs/01_requisitos.md).
+- Requisitos: [`docs/01_requisitos.md`](docs/01_requisitos.md)
+- Domínio (linguagem + modelo): [`e2e` / docs/dominio/administrativo](https://github.com/fiap-vcosta/e2e/blob/main/docs/dominio/administrativo.md)
+- Cloud SQL 1/serviço: [`e2e` ADR 001](https://github.com/fiap-vcosta/e2e/blob/main/docs/adrs/001-instancia-cloud-sql-por-servico.md)
 
 ## Layout
 
@@ -20,12 +23,11 @@ Requisitos: [docs/01_requisitos.md](docs/01_requisitos.md).
 | `src/Application` | Use cases MediatR + gateways |
 | `src/Infrastructure` | EF Core (PostgreSQL), migration **sem seed** |
 | `src/Api` | Controllers `Staff/` + `SystemApi/` (`/administrativo/…` e `/system/administrativo/…`) |
+| `tests/UnitTests` | Gate Coverlet ≥ 80% line/branch |
+| `tests/IntegrationTests` | HTTP + Testcontainers Postgres |
 | `terraform/` | Database `administrativo`, usuário com role `administrativo_app`, secrets SM |
 | `k8s/` | Deployment (Cloud SQL Proxy + Datadog), Service, HPA, KSA, HTTPRoute `/administrativo` |
-| `.github/workflows/ci.yml` | Caller `ci-dotnet` (Packages + Sonar) e `ci-terraform` (`fmt`/`validate`) |
-| `.github/workflows/build-push.yml` | Merge em `main` → imagem no Artifact Registry |
-| `.github/workflows/deploy.yml` | Manual → apply `k8s/` + rollout + smoke health |
-| `.github/workflows/tf-apply.yml` / `tf-destroy.yml` | Manual → database/usuário/secret |
+| `docs/requestly/` | Collection Requestly (Docker / Local / GCP) |
 
 ## Dados de demo
 
@@ -42,7 +44,7 @@ Chave privada **não** vai para o Git.
 
 Em `Development`, a Api carrega `.local/jwt/public.pem` automaticamente se o arquivo existir. No Compose, use `JWT_PUBLIC_KEY_PEM` no `.env` (o setup script preenche).
 
-## Execução local
+## Local
 
 ```bash
 # PAT read:packages para restore / docker build
@@ -52,8 +54,8 @@ dotnet restore TechChallenge.sln
 dotnet build TechChallenge.sln -c Release
 ./scripts/setup-local-jwt.sh
 dotnet run --project src/Api/Api.csproj
+# → http://localhost:8080/administrativo/health
 # Swagger: http://localhost:8080/swagger
-# Health:  http://localhost:8080/administrativo/health
 ```
 
 A app sempre lê `ConnectionStrings__DefaultConnection` (local, Compose `api` e Secret no GKE). `POSTGRES_*` existe só para o container Postgres no Compose.
@@ -64,7 +66,11 @@ Compose (app + Postgres):
 cp .env.example .env   # ou use o .env gerado pelo setup-local-jwt
 # preencha NUGET_AUTH_TOKEN
 docker compose --profile app up --build
+# → http://localhost:8080/administrativo/health
+# Swagger: http://localhost:8080/swagger
 ```
+
+Requestly deste serviço: [`docs/requestly/`](docs/requestly/). Sistema: [`e2e/docs/requestly/`](https://github.com/fiap-vcosta/e2e/tree/main/docs/requestly).
 
 ## Testes
 
@@ -91,7 +97,7 @@ Secret necessário no repo: `SONAR_TOKEN`.
 
 ## Terraform (GCP)
 
-Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-service`. Cria a **própria** instância Cloud SQL; a VPC vem do state do [`infra-bootstrap`](https://github.com/fiap-vcosta/infra-bootstrap). Decisão de sistema: ADR no [`e2e`](https://github.com/fiap-vcosta/e2e/blob/main/docs/adrs/001-instancia-cloud-sql-por-servico.md) (1 instância por serviço SQL).
+Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-service`. Cria a **própria** instância Cloud SQL; a VPC vem do state do [`infra-bootstrap`](https://github.com/fiap-vcosta/infra-bootstrap). Decisão de sistema: [`e2e` ADR 001](https://github.com/fiap-vcosta/e2e/blob/main/docs/adrs/001-instancia-cloud-sql-por-servico.md) (1 instância por serviço SQL).
 
 | Recurso | Papel |
 |---------|--------|
@@ -101,7 +107,9 @@ Root module: [`terraform/`](terraform/). State GCS prefix `administrativo-servic
 | Secrets SM | `administrativo-service-connection-string` (`Maximum Pool Size=4`) |
 | Org secret | `SERVICE_AUTH_KEY` — shared secret da malha (`X-Service-Key` / `ServiceAuth__Key`) |
 
-`tf-apply` / `tf-destroy` são manuais. O `deploy` monta o Secret Kubernetes `administrativo-service` a partir do Secret Manager (connection string) e dos org secrets `SERVICE_AUTH_KEY` + `DD_API_KEY` (a mesma key em todos os serviços da malha).
+`tf-apply` / `tf-destroy` / `deploy` são **manuais de propósito** (custo da janela GCP). CI e `build-push` seguem automáticos. Narrativa: [`e2e` ADR 006](https://github.com/fiap-vcosta/e2e/blob/main/docs/adrs/006-deploy-demo-manuais-custo.md).
+
+O `deploy` monta o Secret Kubernetes `administrativo-service` a partir do Secret Manager (connection string) e dos org secrets `SERVICE_AUTH_KEY` + `DD_API_KEY` (a mesma key em todos os serviços da malha).
 
 ## CD (GCP)
 
